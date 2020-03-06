@@ -1,8 +1,8 @@
 import fetch from "node-fetch";
-import {ClientResponse} from "./ClientResponse";
-import {BaseResponse} from "../Api";
-import {join} from "path";
-import {ClientAbstract} from "./ClientAbstract";
+import { ClientResponse } from "./ClientResponse";
+import { BaseResponse } from "../Api";
+import { join } from "path";
+import { ClientAbstract } from "./ClientAbstract";
 
 export class ClientRequestAbstract extends ClientAbstract {
     /**
@@ -20,8 +20,8 @@ export class ClientRequestAbstract extends ClientAbstract {
     public async ping(): Promise<ClientResponse<BaseResponse>> {
         const response = await this.client(this.getEndpoint().concat(join("/test")), {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({}),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({})
         });
 
         return new ClientResponse(await response.json());
@@ -37,22 +37,30 @@ export class ClientRequestAbstract extends ClientAbstract {
      */
     protected async call<R extends BaseResponse>(url: string, data?: object, requestId?: string): Promise<R> {
         const authorization = Buffer.from(`${this.options.publicId}:${this.options.privateKey}`, "utf-8").toString(
-            "base64",
+            "base64"
         );
 
         const headers: { [key: string]: string } = {
             "Content-Type": "application/json",
-            Authorization: `Basic ${authorization}`,
+            Authorization: `Basic ${authorization}`
         };
 
         if (requestId) {
             headers["X-Request-ID"] = requestId;
         }
 
+        console.debug(
+            `cp.call: url ${this.getEndpoint().concat(join("/", url))} request ${JSON.stringify({
+                headers,
+                method: "POST",
+                body: data ? JSON.stringify(data) : undefined
+            })}`
+        );
+
         const response = await this.client(this.getEndpoint().concat(join("/", url)), {
             headers,
             method: "POST",
-            body: data ? JSON.stringify(data) : undefined,
+            body: data ? JSON.stringify(data) : undefined
         });
 
         return await response.json();
