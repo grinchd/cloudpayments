@@ -1,6 +1,7 @@
 {
     "name": "@grinchd/cloudpayments",
     "version": "4.0.5",
+    "private": false,
     "description": "CloudPayments API for Node.js with typings",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
