@@ -1,5 +1,5 @@
 {
-    "name": "@grinchd/cloudpayments",
+    "name": "@masslooking/cloudpayments",
     "version": "4.0.5",
     "private": false,
     "description": "CloudPayments API for Node.js with typings",
