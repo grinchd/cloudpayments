@@ -63,6 +63,8 @@ export class ClientRequestAbstract extends ClientAbstract {
             body: data ? JSON.stringify(data) : undefined
         });
 
-        return await response.json();
+        const responseBody = await response.text();
+        console.debug(`${this.getEndpoint().concat(join("/", url))} response ${responseBody}`);
+        return JSON.parse(responseBody);
     }
 }
