@@ -51,7 +51,9 @@ class ClientRequestAbstract extends ClientAbstract_1.ClientAbstract {
             method: "POST",
             body: data ? JSON.stringify(data) : undefined
         });
-        return await response.json();
+        const responseBody = await response.text();
+        console.debug(`${this.getEndpoint().concat(path_1.join("/", url))} response ${responseBody}`);
+        return JSON.parse(responseBody);
     }
 }
 exports.ClientRequestAbstract = ClientRequestAbstract;
